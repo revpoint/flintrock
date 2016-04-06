@@ -19,3 +19,6 @@ export SPARK_PUBLIC_DNS="$(curl --silent http://169.254.169.254/latest/meta-data
 # Need to find a way to do this, since "sudo ulimit..." doesn't fly.
 # Probably need to edit some Linux config file.
 # ulimit -n 1000000
+
+export AWS_ACCESS_KEY_ID="{aws_access_key_id}"
+export AWS_SECRET_ACCESS_KEY="{aws_secret_access_key}"

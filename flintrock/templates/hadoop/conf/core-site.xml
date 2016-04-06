@@ -11,4 +11,14 @@
     <name>fs.defaultFS</name>
     <value>hdfs://{master_host}:9000</value>
   </property>
+
+  <property>
+    <name>fs.s3.awsAccessKeyId</name>
+    <value>{aws_access_key_id}</value>
+  </property>
+
+  <property>
+    <name>fs.s3.awsSecretAccessKey</name>
+    <value>{aws_secret_access_key}</value>
+  </property>
 </configuration>

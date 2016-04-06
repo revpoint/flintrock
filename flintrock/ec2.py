@@ -1,4 +1,5 @@
 import functools
+import os
 import string
 import sys
 import time
@@ -84,6 +85,22 @@ class EC2Cluster(FlintrockCluster):
     @property
     def slave_hosts(self):
         return [i.public_dns_name for i in self.slave_instances]
+
+    @property
+    def aws_access_key_id(self):
+        return os.environ.get('AWS_ACCESS_KEY_ID', '')
+
+    @property
+    def aws_secret_access_key(self):
+        return os.environ.get('AWS_SECRET_ACCESS_KEY', '')
+
+    def generate_template_mapping(self, *, service: str) -> dict:
+        mapping = super().generate_template_mapping(service=service)
+        mapping.update({
+            'aws_access_key_id': self.aws_access_key_id,
+            'aws_secret_access_key': self.aws_secret_access_key,
+        })
+        return mapping
 
     @property
     def state(self):
@@ -366,6 +383,12 @@ def get_or_create_ec2_security_groups(
             ip_protocol='tcp',
             from_port=4040,
             to_port=4040,
+            cidr_ip=flintrock_client_cidr,
+            src_group=None),
+        SecurityGroupRule(
+            ip_protocol='tcp',
+            from_port=7077,
+            to_port=7077,
             cidr_ip=flintrock_client_cidr,
             src_group=None)
     ]
